@@ -1,0 +1,151 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./stylesheets/bootstrap.min.css">
+    <script src="./javascripts/jquery-1.11.1.min.js"></script>
+    <script src="./javascripts/bootstrap.min.js"></script>
+    <style>
+        section {
+            width: 450px;
+            margin: 100px auto;
+        }
+
+        button {
+            float: right;
+            position: relative;
+            margin-top: -7.8%;
+            right: 2%;
+        }
+
+        h2 {
+            padding-left: 10%;
+            padding-bottom: 3%;
+        }
+
+        #bar {
+            display: none;
+            width: 80%;
+        }
+
+        #response {
+            display: none;
+            width: 80%;
+        }
+
+        #word {
+            padding-left: 5%;
+        }
+
+        /* nav {
+            width: 30%;
+            margin-top: 7%;
+            position: relative;
+            float: right;
+        }
+
+        nav>ul {
+            padding-top: 5px;
+            margin-left: 20px;
+        }
+
+        nav>ul>li {
+            padding: 5px;
+        }
+
+        nav>ul>li>button {
+            padding: 8px;
+        } */
+
+        /* #searched{
+            display: none;
+        } */
+    </style>
+
+</head>
+
+<body>
+   
+    
+    <section>
+        <h2>LIKE GOOGLE</h2>
+        <div id='search'>
+            <input id="search-input" type="text" class="form-control" style="width:80%">
+            <button id='go' class="btn btn-success">
+                Go</button>
+        </div>
+        <div id="response" class="well">
+            <span id="word"></span>
+            <br>
+            <span class="meaning"></span>
+        </div>
+        <div id="bar" class="well"> </div>
+        <!-- <pre id="pree"></pre> -->
+    </section>
+    <script>
+        var signs = document.getElementById("sign");
+        var login = document.getElementById("loginn");
+        let input = document.getElementById('search-input');
+        let goButton = document.getElementById('go');
+        let word = document.getElementById('word');
+        let meaning = document.getElementsByClassName('meaning');
+        let searcher = document.getElementById("search-input");
+        let bar = document.getElementById("bar");
+      
+        function change(a) {
+            input.value = a;
+
+        }
+       
+        goButton.onclick = function () {
+            document.getElementById("response").style.display = "block";
+            bar.style.display = "none";
+
+            let httpRequest = new XMLHttpRequest();
+            var wordText = input.value;
+            word.textContent = wordText;
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == XMLHttpRequest.DONE) {
+                    if (httpRequest.status == 200) {
+                        meaning[0].textContent = httpRequest.responseText;
+
+                    } else {
+                        meaning[0].textContent = " No meaning ";
+                    }
+                }
+            }
+            httpRequest.open('GET', '/dictionary?word=' + wordText, true);
+            httpRequest.send();
+        }
+        input.oninput = function () {
+            document.getElementById("response").style.display = "none";
+            var words = input.value;
+            if (words.length == 0) {
+                bar.innerHTML = "";
+                bar.style.display = "none";
+            } else {
+                bar.style.display = "block";
+                let httpreq = new XMLHttpRequest();
+                httpreq.onreadystatechange = function () {
+
+                    if (httpreq.readyState == 4) {
+                        if (httpreq.status == 200) {
+                            var aa = httpreq.responseText;
+                            bar.innerHTML = aa;
+                        } else {
+                            bar.textContent = "";
+                        }
+                    }
+                }
+                httpreq.open('GET', '/finisher?word=' + words, true);
+                httpreq.send();
+            }
+        }
+
+    </script>
+</body>
+
+</html>
