@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Ass1</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="converter">
+
+       <item>Birr to Dollar</item>
+        <item>Birr to Pound</item>
+        <item>Yen to Birr</item>
+        <item>Dollar to Birr</item>
+        <item>Dollar to Pound</item>
+        <item>euro to Birr</item>
+        <item>euro to pound</item>
+    </string-array>
+
+</resources>
